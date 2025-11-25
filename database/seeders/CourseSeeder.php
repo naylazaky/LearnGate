@@ -12,7 +12,7 @@ class CourseSeeder extends Seeder
         Course::create([
             'category_id' => 1,
             'teacher_id' => 2,
-            'title' => 'Laravel Fundamnetals',
+            'title' => 'Laravel Fundamentals',
             'description' => 'Learn the basics of Laravel framework',
             'start_date' => now()->subDays(10),
             'end_date' => now()->addDays(50),
