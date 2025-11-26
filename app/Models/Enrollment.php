@@ -61,7 +61,7 @@ class Enrollment extends Model
 
     public function nextIncompleteContent()
     {
-        $completedContentIds = $this->progrresses()
+        $completedContentIds = $this->progresses()
             ->where('is_completed', true)
             ->pluck('content_id')
             ->toArray();

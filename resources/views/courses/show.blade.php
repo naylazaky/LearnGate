@@ -86,17 +86,30 @@
                                         </div>
                                     </div>
                                     @if($isEnrolled)
-                                        <div class="flex items-center bg-green-50 px-4 py-2 rounded-lg">
-                                            <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <span class="ml-2 text-sm font-bold text-green-700">Selesai</span>
-                                        </div>
+                                        @php
+                                            $enrollment = auth()->user()->enrollments()->where('course_id', $course->id)->first();
+                                            $isContentCompleted = $content->isCompletedBy($enrollment->id);
+                                        @endphp
+                                        @if($isContentCompleted)
+                                            <div class="flex items-center bg-green-50 px-4 py-2 rounded-lg">
+                                                <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span class="ml-2 text-sm font-bold text-green-700">Selesai</span>
+                                            </div>
+                                        @else
+                                            <div class="flex items-center bg-yellow-50 px-4 py-2 rounded-lg">
+                                                <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                                <span class="ml-2 text-sm font-bold text-yellow-700">Belum Selesai</span>
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="flex items-center bg-gray-50 px-4 py-2 rounded-lg">
                                             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"></path>
-                                                </svg>
+                                            </svg>
                                             <span class="ml-2 text-sm font-bold text-gray-500">Terkunci</span>
                                         </div>
                                     @endif
@@ -177,13 +190,23 @@
                                                 </div>
                                             </div>
                                         @endif
-                                        <a href="#" class="w-full bg-green-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-green-700 transition shadow-lg hover:shadow-xl text-center flex items-center justify-center">
+                                        <a href="{{ route('student.dashboard') }}" class="w-full bg-green-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-green-700 transition shadow-lg hover:shadow-xl text-center flex items-center justify-center mb-3">
                                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                             </svg>
                                             Lanjutkan Belajar
                                         </a>
+                                        
+                                        <form action="{{ route('courses.unenroll', $course->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari course ini? Progress Anda akan dihapus.')">
+                                            @csrf
+                                            <button type="submit" class="w-full bg-red-50 text-red-600 px-6 py-3 rounded-xl font-bold hover:bg-red-100 transition border-2 border-red-200 flex items-center justify-center">
+                                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                                Keluar dari Course
+                                            </button>
+                                        </form>
                                     </div>
                                 @else
                                     <div class="text-center">
@@ -194,7 +217,7 @@
                                         </div>
                                         <h3 class="font-black text-xl text-gray-900 mb-2">Siap untuk Mulai?</h3>
                                         <p class="text-gray-600 mb-6">Daftar sekarang dan dapatkan akses instan ke semua materi kursus</p>
-                                        <form action="#" method="POST">
+                                        <form action="{{ route('courses.enroll', $course->id) }}" method="POST">
                                             @csrf
                                             <button type="submit" class="w-full bg-blue-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-blue-700 transition shadow-lg hover:shadow-xl flex items-center justify-center">
                                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
