@@ -19,11 +19,14 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['admin', 'teacher', 'student']);
             $table->boolean('is_active')->default(true);
+            $table->enum('approval_status', ['pending', 'approved', 'rejected'])->default('approved');
+            $table->text('rejection_reason')->nullable();
             $table->rememberToken();
             $table->timestamps();
             
             $table->index('email');
             $table->index('role');
+            $table->index('approval_status');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

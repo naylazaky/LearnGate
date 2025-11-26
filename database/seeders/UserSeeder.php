@@ -16,38 +16,62 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'role' => 'admin',
             'is_active' => true,
+            'approval_status' => 'approved',
         ]);
 
         User::create([
-            'username' => 'teacher1',
+            'username' => 'Sasha Kalila',
             'email' => 'teacher1@learngate.com',
             'password' => Hash::make('password'),
             'role' => 'teacher',
             'is_active' => true,
+            'approval_status' => 'approved',
         ]);
 
         User::create([
-            'username' => 'teacher2',
+            'username' => 'Elia',
             'email' => 'teacher2@learngate.com',
             'password' => Hash::make('password'),
             'role' => 'teacher',
             'is_active' => true,
+            'approval_status' => 'approved',
         ]);
         
         User::create([
-            'username' => 'student1',
-            'email' => 'student1@learngate.com',
+            'username' => 'Naailah',
+            'email' => 'student1@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'student',
             'is_active' => true,
+            'approval_status' => 'approved',
         ]);
         
         User::create([
-            'username' => 'student2',
-            'email' => 'student@learngate.com',
+            'username' => 'Eryn',
+            'email' => 'student2@gmail.com',
             'password' => Hash::make('password'),
             'role' => 'student',
             'is_active' => true,
+            'approval_status' => 'approved',
+        ]);
+
+        User::create([
+            'username' => 'teacherpending',
+            'email' => 'pending@learngate.com',
+            'password' => Hash::make('password'),
+            'role' => 'teacher',
+            'is_active' => false,
+            'approval_status' => 'pending',
+        ]);
+
+        User::create([
+            'username' => 'teacherrejected',
+            'email' => 'rejected@learngate.com',
+            'password' => Hash::make('password'),
+            'role' => 'teacher',
+            'is_active' => false,
+            'approval_status' => 'rejected',
+            'rejection_reason' => 'Tidak memenuhi persyaratan.',
         ]);
     }
 }

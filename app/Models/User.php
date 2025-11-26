@@ -16,6 +16,8 @@ class User extends Authenticatable
         'password',
         'role',
         'is_active',
+        'approval_status',
+        'rejection_reason',
     ];
 
     protected $hidden = [
@@ -67,5 +69,20 @@ class User extends Authenticatable
     public function isActive()
     {
         return $this->is_active;
+    }
+
+    public function isPending()
+    {
+        return $this->approval_status == 'pending';
+    }
+
+    public function isApproved()
+    {
+        return $this->approval_status == 'approved';
+    }
+
+    public function isRejected()
+    {
+        return $this->approval_status == 'rejected';
     }
 }
