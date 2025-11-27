@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Student\LessonController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -37,7 +39,9 @@ Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')
 });
 
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Student Dashboard';
-    })->name('dashboard');
+    Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
+    Route::get('/my-courses', [StudentController::class, 'myCourses'])->name('my-courses');
+    
+    Route::get('/courses/{courseId}/lesson/{contentId}', [LessonController::class, 'show'])->name('lesson.show');
+    Route::post('/courses/{courseId}/lesson/{contentId}/complete', [LessonController::class, 'markAsCompleted'])->name('lesson.complete');
 });

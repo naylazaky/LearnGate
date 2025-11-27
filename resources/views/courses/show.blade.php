@@ -75,21 +75,36 @@
                         </h2>
                         <div class="space-y-3">
                             @forelse($course->contents as $index => $content)
-                                <div class="group flex items-center p-4 border-2 border-gray-100 rounded-xl hover:border-blue-500 hover:shadow-lg transition-all">
+                                @php
+                                    if ($isEnrolled) {
+                                        $enrollment = auth()->user()->enrollments()->where('course_id', $course->id)->first();
+                                        $isContentCompleted = $content->isCompletedBy($enrollment->id);
+                                        
+                                        // Check if previous content is completed (untuk sequential access)
+                                        $previousContent = $course->contents()->where('order', '<', $content->order)->orderBy('order', 'desc')->first();
+                                        $canAccess = !$previousContent || ($previousContent && $previousContent->isCompletedBy($enrollment->id));
+                                    } else {
+                                        $isContentCompleted = false;
+                                        $canAccess = false;
+                                    }
+                                @endphp
+                                
+                                @if($isEnrolled && $canAccess)
+                                    <a href="{{ route('student.lesson.show', ['courseId' => $course->id, 'contentId' => $content->id]) }}" 
+                                       class="group flex items-center p-4 border-2 border-gray-100 rounded-xl hover:border-blue-500 hover:shadow-lg transition-all cursor-pointer">
+                                @else
+                                    <div class="group flex items-center p-4 border-2 border-gray-100 rounded-xl {{ $isEnrolled && !$canAccess ? 'opacity-50 cursor-not-allowed' : '' }}">
+                                @endif
                                     <div class="flex items-center flex-1">
-                                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 group-hover:bg-blue-600 transition">
-                                            <span class="text-blue-600 font-bold group-hover:text-white transition">{{ $index + 1 }}</span>
+                                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-4 {{ $isEnrolled && $canAccess ? 'group-hover:bg-blue-600' : '' }} transition">
+                                            <span class="text-blue-600 font-bold {{ $isEnrolled && $canAccess ? 'group-hover:text-white' : '' }} transition">{{ $index + 1 }}</span>
                                         </div>
                                         <div class="flex-1">
-                                            <p class="font-bold text-gray-900 group-hover:text-blue-600 transition">{{ $content->title }}</p>
+                                            <p class="font-bold text-gray-900 {{ $isEnrolled && $canAccess ? 'group-hover:text-blue-600' : '' }} transition">{{ $content->title }}</p>
                                             <p class="text-sm text-gray-500 font-medium">Materi {{ $content->order }} • 2 jam</p>
                                         </div>
                                     </div>
                                     @if($isEnrolled)
-                                        @php
-                                            $enrollment = auth()->user()->enrollments()->where('course_id', $course->id)->first();
-                                            $isContentCompleted = $content->isCompletedBy($enrollment->id);
-                                        @endphp
                                         @if($isContentCompleted)
                                             <div class="flex items-center bg-green-50 px-4 py-2 rounded-lg">
                                                 <svg class="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -97,12 +112,19 @@
                                                 </svg>
                                                 <span class="ml-2 text-sm font-bold text-green-700">Selesai</span>
                                             </div>
-                                        @else
+                                        @elseif($canAccess)
                                             <div class="flex items-center bg-yellow-50 px-4 py-2 rounded-lg">
                                                 <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
                                                 <span class="ml-2 text-sm font-bold text-yellow-700">Belum Selesai</span>
+                                            </div>
+                                        @else
+                                            <div class="flex items-center bg-gray-50 px-4 py-2 rounded-lg">
+                                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"></path>
+                                                </svg>
+                                                <span class="ml-2 text-sm font-bold text-gray-500">Terkunci</span>
                                             </div>
                                         @endif
                                     @else
@@ -113,7 +135,11 @@
                                             <span class="ml-2 text-sm font-bold text-gray-500">Terkunci</span>
                                         </div>
                                     @endif
-                                </div>
+                                @if($isEnrolled && $canAccess)
+                                    </a>
+                                @else
+                                    </div>
+                                @endif
                             @empty
                                 <div class="text-center py-12">
                                     <div class="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
@@ -186,27 +212,39 @@
                                                     <svg class="w-6 h-6 text-green-500 mr-3" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                                     </svg>
-                                                    <span class="text-green-700 font-bold">Kursus Selesai! 🎉</span>
+                                                    <span class="text-green-700 font-bold">Kursus Selesai!</span>
                                                 </div>
                                             </div>
                                         @endif
-                                        <a href="{{ route('student.dashboard') }}" class="w-full bg-green-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-green-700 transition shadow-lg hover:shadow-xl text-center flex items-center justify-center mb-3">
-                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            Lanjutkan Belajar
-                                        </a>
                                         
-                                        <form action="{{ route('courses.unenroll', $course->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari course ini? Progress Anda akan dihapus.')">
-                                            @csrf
-                                            <button type="submit" class="w-full bg-red-50 text-red-600 px-6 py-3 rounded-xl font-bold hover:bg-red-100 transition border-2 border-red-200 flex items-center justify-center">
+                                        @php
+                                            $enrollment = auth()->user()->enrollments()->where('course_id', $course->id)->first();
+                                            $nextLesson = $enrollment->nextIncompleteContent();
+                                            $firstLesson = $course->contents()->orderBy('order')->first();
+                                        @endphp
+                                        
+                                        @if($firstLesson)
+                                            <a href="{{ route('student.lesson.show', ['courseId' => $course->id, 'contentId' => $nextLesson ? $nextLesson->id : $firstLesson->id]) }}" 
+                                               class="w-full bg-green-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-green-700 transition shadow-lg hover:shadow-xl text-center flex items-center justify-center mb-3">
                                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                                 </svg>
-                                                Keluar dari Course
-                                            </button>
-                                        </form>
+                                                {{ $progress == 100 ? 'Review Materi' : ($nextLesson ? 'Lanjutkan Belajar' : 'Mulai Belajar') }}
+                                            </a>
+                                        @endif
+                                        
+                                        @if($progress < 100)
+                                            <form action="{{ route('courses.unenroll', $course->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin keluar dari course ini? Progress Anda akan dihapus.')">
+                                                @csrf
+                                                <button type="submit" class="w-full bg-red-50 text-red-600 px-6 py-3 rounded-xl font-bold hover:bg-red-100 transition border-2 border-red-200 flex items-center justify-center">
+                                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                    Keluar dari Course
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 @else
                                     <div class="text-center">

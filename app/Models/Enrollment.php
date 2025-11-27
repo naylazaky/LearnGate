@@ -34,7 +34,7 @@ class Enrollment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function progrresses()
+    public function progresses()
     {
         return $this->hasMany(Progress::class);
     }
@@ -47,7 +47,7 @@ class Enrollment extends Model
             return 0;
         }
 
-        $completedContents = $this->progrresses()
+        $completedContents = $this->progresses()
             ->where('is_completed', true)
             ->count();
 

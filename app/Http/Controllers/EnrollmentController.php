@@ -77,8 +77,8 @@ class EnrollmentController extends Controller
             return back()->with('error', 'Anda tidak terdaftar di course ini.');
         }
 
-        if ($enrollment->calculateProgress() > 0) {
-            return back()->with('error', 'Anda tidak dapat keluar dari course yang sudah dimulai. Progress Anda: ' . $enrollment->calculateProgress() . '%');
+        if ($enrollment->calculateProgress() == 100) {
+            return back()->with('error', 'Anda tidak dapat keluar dari course yang sudah selesai.');
         }
 
         try {
