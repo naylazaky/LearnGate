@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\CourseController as AdminCourseController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Teacher\DashboardController as TeacherDashboardController;
+use App\Http\Controllers\Teacher\CourseController as TeacherCourseController;
+use App\Http\Controllers\Teacher\ContentController as TeacherContentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -48,9 +51,19 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Teacher Dashboard';
-    })->name('dashboard');
+    Route::get('/dashboard', [TeacherDashboardController::class, 'index'])->name('dashboard');
+    
+    // Course Management
+    Route::resource('courses', TeacherCourseController::class);
+    Route::get('/courses/{course}/students', [TeacherCourseController::class, 'students'])->name('courses.students');
+    
+    // Content Management
+    Route::get('/courses/{course}/contents', [TeacherContentController::class, 'index'])->name('contents.index');
+    Route::get('/courses/{course}/contents/create', [TeacherContentController::class, 'create'])->name('contents.create');
+    Route::post('/courses/{course}/contents', [TeacherContentController::class, 'store'])->name('contents.store');
+    Route::get('/courses/{course}/contents/{content}/edit', [TeacherContentController::class, 'edit'])->name('contents.edit');
+    Route::put('/courses/{course}/contents/{content}', [TeacherContentController::class, 'update'])->name('contents.update');
+    Route::delete('/courses/{course}/contents/{content}', [TeacherContentController::class, 'destroy'])->name('contents.destroy');
 });
 
 Route::middleware(['auth', 'role:student'])->prefix('student')->name('student.')->group(function () {

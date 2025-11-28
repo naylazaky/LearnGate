@@ -120,8 +120,7 @@
     </div>
 </div>
 
-<!-- Reject Modal -->
-<div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+<div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50  items-center justify-center p-4">
     <div class="bg-white rounded-2xl p-8 max-w-md w-full">
         <h3 class="text-2xl font-black text-gray-900 mb-4">Reject Teacher</h3>
         <p class="text-gray-600 mb-6">Anda akan menolak teacher <span id="teacherName" class="font-bold"></span>. Berikan alasan penolakan:</p>
