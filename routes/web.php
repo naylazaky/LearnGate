@@ -5,6 +5,10 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\LessonController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\CourseController as AdminCourseController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -27,9 +31,20 @@ Route::middleware(['auth', 'role:student'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Admin Dashboard';
-    })->name('dashboard');
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    
+    // User Management
+    Route::resource('users', AdminUserController::class);
+    Route::get('/teachers/pending', [AdminUserController::class, 'pendingTeachers'])->name('teachers.pending');
+    Route::post('/users/{user}/approve', [AdminUserController::class, 'approve'])->name('users.approve');
+    Route::post('/users/{user}/reject', [AdminUserController::class, 'reject'])->name('users.reject');
+    
+    // Course Management
+    Route::resource('courses', AdminCourseController::class)->except(['create', 'store']);
+    Route::post('/courses/{course}/toggle-status', [AdminCourseController::class, 'toggleStatus'])->name('courses.toggle-status');
+    
+    // Category Management
+    Route::resource('categories', AdminCategoryController::class);
 });
 
 Route::middleware(['auth', 'role:teacher'])->prefix('teacher')->name('teacher.')->group(function () {
