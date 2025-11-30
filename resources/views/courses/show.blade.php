@@ -2,20 +2,14 @@
 
 @section('title', $course->title . ' - LearnGate')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('courses.catalog') }}" class="text-blue-600 hover:text-blue-700 font-medium">Kursus</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">{{ Str::limit($course->title, 30) }}</span>
-@endsection
-
 @section('content')
     <div class="bg-gray-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="mb-6">
+                <x-back-button />
+            </div>
+            
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2 space-y-6">
                     <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
@@ -65,7 +59,6 @@
                         </div>
                     </div>
 
-                    <!-- Course Content -->
                     <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-100">
                         <h2 class="text-2xl font-black text-gray-900 mb-6 flex items-center">
                             <svg class="w-7 h-7 text-blue-600 mr-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
@@ -168,12 +161,16 @@
                             </div>
                         </div>
                         <p class="text-sm text-gray-600 mb-4 leading-relaxed">{{ $course->teacher->email }}</p>
-                        <button class="w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-bold hover:bg-gray-200 transition flex items-center justify-center">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                            </svg>
-                            Hubungi Tentor
-                        </button>
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $course->teacher->email }}&su=Pertanyaan mengenai {{ $course->title }}&body=Halo {{ $course->teacher->username }},%0D%0A%0D%0ASaya ingin bertanya mengenai kursus {{ $course->title }}." 
+                           target="_blank"
+                           class="block w-full bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-bold hover:bg-gray-200 transition text-center">
+                            <span class="flex items-center justify-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                Hubungi Tentor
+                            </span>
+                        </a>
                     </div>
 
                     <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">

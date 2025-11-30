@@ -53,7 +53,7 @@ class Course extends Model
     public function students()
     {
         return $this->belongsToMany(User::class, 'enrollments', 'course_id', 'student_id')
-            ->withTimeStamps()
+            ->withTimestamps()
             ->withPivot('enrolled_at');
     }
 
@@ -73,7 +73,7 @@ class Course extends Model
         $this->increment('student_count');
     }
 
-    public function decreamentStudentCount()
+    public function decrementStudentCount()
     {
         $this->decrement('student_count');
     }

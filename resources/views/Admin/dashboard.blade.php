@@ -10,7 +10,6 @@
             <p class="text-lg text-gray-600">Selamat datang, <span class="font-bold text-blue-600">{{ auth()->user()->username }}</span>!</p>
         </div>
 
-        <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
                 <div class="flex items-center justify-between mb-2">
@@ -85,9 +84,19 @@
                         </div>
                     </a>
 
+                    <a href="{{ route('admin.courses.create') }}" class="flex items-center p-4 bg-green-50 hover:bg-green-100 rounded-xl transition border-2 border-green-200">
+                        <svg class="w-8 h-8 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        <div>
+                            <p class="font-bold text-gray-900">Add Course</p>
+                            <p class="text-xs text-gray-600">Create new course</p>
+                        </div>
+                    </a>
+
                     <a href="{{ route('admin.categories.create') }}" class="flex items-center p-4 bg-purple-50 hover:bg-purple-100 rounded-xl transition border-2 border-purple-200">
                         <svg class="w-8 h-8 text-purple-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
                         </svg>
                         <div>
                             <p class="font-bold text-gray-900">Add Category</p>
@@ -95,8 +104,8 @@
                         </div>
                     </a>
 
-                    <a href="{{ route('admin.users.index') }}" class="flex items-center p-4 bg-green-50 hover:bg-green-100 rounded-xl transition border-2 border-green-200">
-                        <svg class="w-8 h-8 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <a href="{{ route('admin.users.index') }}" class="flex items-center p-4 bg-orange-50 hover:bg-orange-100 rounded-xl transition border-2 border-orange-200">
+                        <svg class="w-8 h-8 text-orange-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                         </svg>
                         <div>
@@ -114,10 +123,19 @@
                             <p class="text-xs text-gray-600">View all courses</p>
                         </div>
                     </a>
+
+                    <a href="{{ route('admin.categories.index') }}" class="flex items-center p-4 bg-pink-50 hover:bg-pink-100 rounded-xl transition border-2 border-pink-200">
+                        <svg class="w-8 h-8 text-pink-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                        </svg>
+                        <div>
+                            <p class="font-bold text-gray-900">Categories</p>
+                            <p class="text-xs text-gray-600">View all categories</p>
+                        </div>
+                    </a>
                 </div>
             </div>
 
-            <!-- Recent Users -->
             <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
                 <div class="flex items-center justify-between mb-4">
                     <h2 class="text-2xl font-black text-gray-900">Recent Users</h2>
@@ -127,9 +145,15 @@
                     @forelse($recentUsers as $user)
                         <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                             <div class="flex items-center">
-                                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
-                                    {{ strtoupper(substr($user->username, 0, 1)) }}
-                                </div>
+                                @if($user->profile_photo)
+                                    <img src="{{ asset('storage/' . $user->profile_photo) }}" 
+                                         alt="{{ $user->username }}"
+                                         class="w-10 h-10 rounded-full object-cover mr-3 ring-2 ring-blue-100">
+                                @else
+                                    <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">
+                                        {{ $user->initials }}
+                                    </div>
+                                @endif
                                 <div>
                                     <p class="font-bold text-gray-900">{{ $user->username }}</p>
                                     <p class="text-xs text-gray-500">{{ $user->email }}</p>
@@ -149,21 +173,27 @@
             </div>
         </div>
 
-        <!-- Popular Courses -->
         <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
             <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-black text-gray-900">Popular Courses</h2>
+                <h2 class="text-2xl font-black text-gray-900">Recent Courses</h2>
                 <a href="{{ route('admin.courses.index') }}" class="text-blue-600 hover:text-blue-700 font-bold text-sm">View All</a>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                @forelse($popularCourses as $course)
+                @forelse($recentCourses as $course)
                     <div class="border-2 border-gray-100 rounded-xl p-4 hover:shadow-lg transition">
-                        <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full mb-3">
-                            {{ $course->category->name }}
-                        </span>
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="inline-block bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1 rounded-full">
+                                {{ $course->category->name ?? 'No Category' }}
+                            </span>
+                            <span class="px-2 py-1 text-xs font-bold rounded-full {{ $course->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700' }}">
+                                {{ $course->is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </div>
                         <h3 class="font-bold text-gray-900 mb-2 line-clamp-2">{{ $course->title }}</h3>
                         <div class="flex items-center justify-between text-sm">
-                            <span class="text-gray-600">{{ $course->teacher->username }}</span>
+                            <span class="text-gray-600">
+                                {{ $course->teacher?->username ?? 'No Teacher' }}
+                            </span>
                             <span class="text-blue-600 font-bold">{{ $course->student_count }} students</span>
                         </div>
                     </div>

@@ -63,15 +63,5 @@ class UserSeeder extends Seeder
             'is_active' => false,
             'approval_status' => 'pending',
         ]);
-
-        User::create([
-            'username' => 'teacherrejected',
-            'email' => 'rejected@learngate.com',
-            'password' => Hash::make('password'),
-            'role' => 'teacher',
-            'is_active' => false,
-            'approval_status' => 'rejected',
-            'rejection_reason' => 'Tidak memenuhi persyaratan.',
-        ]);
     }
 }

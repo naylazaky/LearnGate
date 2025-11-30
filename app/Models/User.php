@@ -14,6 +14,7 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
+        'profile_photo',
         'role',
         'is_active',
         'approval_status',
@@ -84,5 +85,18 @@ class User extends Authenticatable
     public function isRejected()
     {
         return $this->approval_status == 'rejected';
+    }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        if ($this->profile_photo) {
+            return asset('storage/' . $this->profile_photo);
+        }
+        return null;
+    }
+
+    public function getInitialsAttribute()
+    {
+        return strtoupper(substr($this->username, 0, 1));
     }
 }

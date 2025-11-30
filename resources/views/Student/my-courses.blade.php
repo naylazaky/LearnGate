@@ -2,13 +2,6 @@
 
 @section('title', 'Kursus Saya - LearnGate')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Kursus Saya</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -23,7 +16,7 @@
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <span class="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1.5 rounded-full">
-                                {{ $item['course']->category->name }}
+                                {{ $item['course']->category?->name ?? 'Uncategorized' }}
                             </span>
                             @if($item['isCompleted'])
                                 <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full flex items-center">
@@ -40,7 +33,7 @@
                         </div>
                         
                         <h3 class="font-bold text-xl text-gray-900 mb-3 line-clamp-2">
-                            {{ $item['course']->title }}
+                            {{ $item['course']?->title ?? 'Course Not Available' }}
                         </h3>
                         
                         <div class="mb-4">
@@ -59,11 +52,11 @@
                         <div class="flex items-center justify-between pt-4 border-t-2 border-gray-100">
                             <div class="flex items-center">
                                 <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
-                                    {{ strtoupper(substr($item['course']->teacher->username, 0, 1)) }}
+                                    {{ strtoupper(substr($item['course']?->teacher?->username ?? 'Unknown', 0, 1)) }}
                                 </div>
-                                <span class="text-sm font-bold text-gray-900">{{ $item['course']->teacher->username }}</span>
+                                <span class="text-sm font-bold text-gray-900">{{ $item['course']?->teacher?->username ?? 'Unknown Teacher' }}</span>
                             </div>
-                            <a href="{{ route('courses.show', $item['course']->id) }}" 
+                            <a href="{{ $item['course'] ? route('courses.show', $item['course']->id) : '#' }}"
                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm font-bold">
                                 {{ $item['isCompleted'] ? 'Review' : 'Lanjutkan' }}
                             </a>

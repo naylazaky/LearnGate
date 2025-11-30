@@ -11,17 +11,19 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $query = auth()->user()->coursesAsTeacher()->with(['category']);
+        $query = auth()->user()->coursesAsTeacher();
 
-        if ($request->has('status') && $request->status !== '') {
+        if ($request->filled('status')) {
             $query->where('is_active', $request->status);
         }
 
-        if ($request->has('search') && $request->search) {
+        if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        $courses = $query->withCount(['students', 'contents'])
+        $courses = $query
+            ->with(['category'])
+            ->withCount(['students', 'contents'])
             ->latest()
             ->paginate(12);
 
@@ -31,6 +33,7 @@ class CourseController extends Controller
     public function create()
     {
         $categories = Category::all();
+        
         return view('teacher.courses.create', compact('categories'));
     }
 
@@ -84,6 +87,7 @@ class CourseController extends Controller
         }
 
         $categories = Category::all();
+        
         return view('teacher.courses.edit', compact('course', 'categories'));
     }
 
@@ -134,10 +138,9 @@ class CourseController extends Controller
         }
 
         $enrollments = $course->enrollments()
-            ->with(['student', 'progresses.content'])
+            ->with(['student', 'progresses'])
             ->latest('enrolled_at')
             ->paginate(20);
-
         $studentsData = $enrollments->map(function ($enrollment) {
             return [
                 'enrollment' => $enrollment,

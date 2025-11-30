@@ -10,18 +10,33 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            'name' => 'Web Development',
-            'description' => 'Learn to build modern web applications',
+            'name' => 'Grammar',
+            'description' => 'Master English grammar rules and sentence structures',
         ]);
 
         Category::create([
-            'name' => 'Data Science',
-            'description' => 'Master data analysis and machine learning',
+            'name' => 'Speaking & Conversation',
+            'description' => 'Improve your English speaking and conversation skills',
         ]);
 
         Category::create([
-            'name' => 'UI/UX Design',
-            'description' => 'Create beautiful and user-friendly interfaces',
+            'name' => 'Vocabulary & Idioms',
+            'description' => 'Expand your English vocabulary and learn common idioms',
+        ]);
+
+        Category::create([
+            'name' => 'Writing',
+            'description' => 'Learn to write effectively in English for various purposes',
+        ]);
+
+        Category::create([
+            'name' => 'Listening & Pronunciation',
+            'description' => 'Enhance your listening comprehension and pronunciation skills',
+        ]);
+
+        Category::create([
+            'name' => 'Business English',
+            'description' => 'Professional English for workplace communication and career advancement',
         ]);
     }
 }

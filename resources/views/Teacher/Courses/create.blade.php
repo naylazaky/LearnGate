@@ -2,24 +2,14 @@
 
 @section('title', 'Create Course - Teacher')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.courses.index') }}" class="text-blue-600 hover:text-blue-700 font-medium">My Courses</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Create Course</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
             <h1 class="text-4xl font-black text-gray-900 mb-2">Create New Course</h1>
             <p class="text-lg text-gray-600">Buat course baru untuk siswa Anda</p>

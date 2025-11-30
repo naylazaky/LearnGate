@@ -41,6 +41,10 @@ class Enrollment extends Model
 
     public function calculateProgress()
     {
+        if (!$this->course) {
+            return 0;
+        }
+
         $totalContents = $this->course->contents()->count();
 
         if ($totalContents == 0) {
@@ -61,6 +65,10 @@ class Enrollment extends Model
 
     public function nextIncompleteContent()
     {
+        if (!$this->course) {
+            return null;
+        }
+
         $completedContentIds = $this->progresses()
             ->where('is_completed', true)
             ->pluck('content_id')

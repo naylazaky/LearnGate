@@ -2,20 +2,10 @@
 
 @section('title', 'My Courses - Teacher')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">My Courses</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         <div class="flex items-center justify-between mb-8">
             <div>
                 <h1 class="text-4xl font-black text-gray-900 mb-2">My Courses</h1>
@@ -29,7 +19,6 @@
             </a>
         </div>
 
-        <!-- Filters -->
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border-2 border-gray-100">
             <form action="{{ route('teacher.courses.index') }}" method="GET">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
@@ -68,7 +57,6 @@
             </form>
         </div>
 
-        <!-- Courses Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($courses as $course)
                 <div class="bg-white rounded-2xl border-2 border-gray-100 overflow-hidden hover:shadow-2xl transition-all">

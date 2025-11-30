@@ -2,24 +2,14 @@
 
 @section('title', $course->title . ' - Teacher')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.courses.index') }}" class="text-blue-600 hover:text-blue-700 font-medium">My Courses</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">{{ Str::limit($course->title, 30) }}</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
             <div class="flex items-start justify-between">
                 <div class="flex-1">
@@ -104,7 +94,6 @@
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 space-y-6">
-                <!-- Course Contents -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
                     <div class="flex items-center justify-between mb-6">
                         <h2 class="text-2xl font-black text-gray-900">Course Contents</h2>
@@ -155,7 +144,6 @@
             </div>
 
             <div class="lg:col-span-1 space-y-6">
-                <!-- Quick Actions -->
                 <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
                     <h3 class="text-lg font-black text-gray-900 mb-4">Quick Actions</h3>
                     <div class="space-y-3">
@@ -187,7 +175,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Students -->
                 @if($enrollments->count() > 0)
                     <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
                         <h3 class="text-lg font-black text-gray-900 mb-4">Recent Students</h3>

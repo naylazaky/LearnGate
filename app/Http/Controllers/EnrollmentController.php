@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Progress;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class EnrollmentController extends Controller
 {
@@ -30,74 +29,42 @@ class EnrollmentController extends Controller
             return back()->with('error', 'Anda sudah terdaftar di course ini.');
         }
 
-        try {
-            DB::beginTransaction();
+        $enrollment = Enrollment::create([
+            'student_id' => auth()->id(),
+            'course_id' => $courseId,
+            'enrolled_at' => now(),
+        ]);
 
-            $enrollment = Enrollment::create([
-                'student_id' => auth()->id(),
-                'course_id' => $courseId,
-                'enrolled_at' => now(),
-            ]);
+        $contents = $course->contents()->orderBy('order')->get();
+        
+        if ($contents->count() > 0) {
+            $progressData = $contents->map(fn($content) => [
+                'enrollment_id' => $enrollment->id,
+                'content_id' => $content->id,
+                'is_completed' => false,
+                'completed_at' => null,
+            ])->toArray();
 
-            $contents = $course->contents;
-            
-            if ($contents->count() > 0) {
-                $progressData = $contents->map(function ($content) use ($enrollment) {
-                    return [
-                        'enrollment_id' => $enrollment->id,
-                        'content_id' => $content->id,
-                        'is_completed' => false,
-                        'completed_at' => null,
-                    ];
-                })->toArray();
-
-                Progress::insert($progressData);
-            }
-
-            $course->increment('student_count');
-
-            DB::commit();
-
-            return redirect()->route('courses.show', $courseId)
-                ->with('success', 'Berhasil mendaftar di course ini! Mulai belajar sekarang.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+            Progress::insert($progressData);
         }
+
+        return redirect()->route('courses.show', $courseId)
+            ->with('success', 'Berhasil mendaftar di course ini!');
     }
 
     public function unenroll($courseId)
     {
         $enrollment = auth()->user()->enrollments()
             ->where('course_id', $courseId)
-            ->first();
-
-        if (!$enrollment) {
-            return back()->with('error', 'Anda tidak terdaftar di course ini.');
-        }
+            ->firstOrFail();
 
         if ($enrollment->calculateProgress() == 100) {
             return back()->with('error', 'Anda tidak dapat keluar dari course yang sudah selesai.');
         }
 
-        try {
-            DB::beginTransaction();
+        $enrollment->delete();
 
-            $course = Course::findOrFail($courseId);
-
-            $enrollment->delete();
-
-            $course->decrement('student_count');
-
-            DB::commit();
-
-            return redirect()->route('courses.show', $courseId)
-                ->with('success', 'Berhasil keluar dari course ini.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan. Silakan coba lagi.');
-        }
+        return redirect()->route('courses.show', $courseId)
+            ->with('success', 'Berhasil keluar dari course ini.');
     }
 }

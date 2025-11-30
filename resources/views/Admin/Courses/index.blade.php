@@ -2,40 +2,33 @@
 
 @section('title', 'Manage Courses - Admin')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('admin.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Courses</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
-            <h1 class="text-4xl font-black text-gray-900 mb-2">Manage Courses</h1>
+            <h1 class="text-4xl font-black text-gray-900 mb-2">Kelola Course</h1>
             <p class="text-lg text-gray-600">Kelola semua kursus di platform</p>
         </div>
 
-        <!-- Filters -->
         <div class="bg-white rounded-2xl shadow-lg p-6 mb-8 border-2 border-gray-100">
             <form action="{{ route('admin.courses.index') }}" method="GET">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div class="md:col-span-5">
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Search</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Cari</label>
                         <input type="text" name="search" placeholder="Cari nama course..." 
                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500"
                                value="{{ request('search') }}">
                     </div>
 
                     <div class="md:col-span-3">
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Category</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Kategori</label>
                         <select name="category" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500">
-                            <option value="">All Categories</option>
+                            <option value="">Semua Kategori</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
@@ -48,7 +41,7 @@
                         <label class="block text-sm font-bold text-gray-700 mb-2">Status</label>
                         <div class="flex gap-2">
                             <select name="status" class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500">
-                                <option value="">All Status</option>
+                                <option value="">Semua Status</option>
                                 <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
                                 <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
                             </select>
@@ -65,21 +58,20 @@
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            Clear Filters
+                            Reset Filter
                         </a>
                     </div>
                 @endif
             </form>
         </div>
 
-        <!-- Courses Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($courses as $course)
                 <div class="bg-white rounded-2xl border-2 border-gray-100 overflow-hidden hover:shadow-2xl transition-all">
                     <div class="p-6">
                         <div class="flex items-center justify-between mb-4">
                             <span class="bg-blue-50 text-blue-600 text-xs font-bold px-3 py-1.5 rounded-full">
-                                {{ $course->category->name }}
+                                {{ $course->category->name ?? 'No Category' }}
                             </span>
                             @if($course->is_active)
                                 <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Active</span>
@@ -98,7 +90,7 @@
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
-                                <span class="font-medium">{{ $course->teacher->username }}</span>
+                                <span class="font-medium">{{ $course->teacher->username ?? 'No Teacher' }}</span>
                             </div>
                             <div class="flex items-center text-blue-600 font-bold">
                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -112,7 +104,7 @@
                             <a href="{{ route('courses.show', $course->id) }}" 
                                class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 text-center font-bold rounded-lg hover:bg-gray-200 transition text-sm"
                                target="_blank">
-                                View
+                                Lihat
                             </a>
                             <a href="{{ route('admin.courses.edit', $course) }}" 
                                class="flex-1 px-4 py-2 bg-blue-600 text-white text-center font-bold rounded-lg hover:bg-blue-700 transition text-sm">

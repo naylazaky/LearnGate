@@ -2,28 +2,14 @@
 
 @section('title', 'Students - ' . $course->title)
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.courses.index') }}" class="text-blue-600 hover:text-blue-700 font-medium">My Courses</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.courses.show', $course) }}" class="text-blue-600 hover:text-blue-700 font-medium">{{ Str::limit($course->title, 20) }}</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Students</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
@@ -39,7 +25,6 @@
             </div>
         </div>
 
-        <!-- Stats -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
                 <div class="flex items-center justify-between mb-2">
@@ -78,7 +63,6 @@
             </div>
         </div>
 
-        <!-- Students List -->
         <div class="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-gray-100">
             @if($studentsData->count() > 0)
                 <div class="overflow-x-auto">

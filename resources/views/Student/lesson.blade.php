@@ -2,28 +2,17 @@
 
 @section('title', $content->title . ' - ' . $course->title . ' - LearnGate')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('student.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('courses.show', $course->id) }}" class="text-blue-600 hover:text-blue-700 font-medium">{{ Str::limit($course->title, 20) }}</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">{{ Str::limit($content->title, 20) }}</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <!-- Sidebar - Course Content List -->
             <div class="lg:col-span-1">
-                <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 sticky top-24">
+                <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-100 p-6 top-24">
                     <div class="mb-6">
                         <h3 class="font-black text-lg text-gray-900 mb-2">{{ $course->title }}</h3>
                         <div class="flex items-center justify-between text-sm">
@@ -38,14 +27,18 @@
                     <div class="border-t-2 border-gray-100 pt-4">
                         <h4 class="font-bold text-sm text-gray-900 mb-3">Daftar Materi</h4>
                         <div class="space-y-2 max-h-96 overflow-y-auto">
+                            {{-- FIXED: Use eager loaded progresses collection instead of querying --}}
                             @foreach($allContents as $item)
                                 @php
-                                    $itemProgress = $enrollment->progresses()->where('content_id', $item->id)->first();
+                                    // FIXED: Get progress from already loaded relationship (NO QUERY)
+                                    $itemProgress = $enrollment->progresses->firstWhere('content_id', $item->id);
                                     $itemCompleted = $itemProgress ? $itemProgress->is_completed : false;
                                     
                                     // Check if can access (previous must be completed)
                                     $previousItem = $allContents->where('order', '<', $item->order)->sortByDesc('order')->first();
-                                    $canAccessItem = !$previousItem || ($previousItem && $enrollment->progresses()->where('content_id', $previousItem->id)->where('is_completed', true)->exists());
+                                    
+                                    // FIXED: Check completion from already loaded collection (NO QUERY)
+                                    $canAccessItem = !$previousItem || ($previousItem && $enrollment->progresses->firstWhere('content_id', $previousItem->id)?->is_completed);
                                 @endphp
                                 
                                 @if($canAccessItem)
@@ -82,10 +75,8 @@
                 </div>
             </div>
 
-            <!-- Main Content -->
             <div class="lg:col-span-3">
                 <div class="bg-white rounded-2xl shadow-lg border-2 border-gray-100 overflow-hidden">
-                    <!-- Header -->
                     <div class="bg-blue-600 text-white p-8">
                         <div class="flex items-center justify-between mb-4">
                             <span class="bg-blue-700 px-4 py-2 rounded-full text-sm font-bold">
@@ -105,21 +96,58 @@
                             @endif
                         </div>
                         <h1 class="text-4xl font-black mb-2">{{ $content->title }}</h1>
-                        <div class="flex items-center text-blue-100">
-                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <span class="font-medium">Estimasi waktu: 2 jam</span>
-                        </div>
+                        @if($content->description)
+                            <p class="text-blue-100 text-lg">{{ $content->description }}</p>
+                        @endif
                     </div>
 
-                    <!-- Content Body -->
                     <div class="p-8">
-                        <div class="prose max-w-none">
-                            <div class="text-gray-800 leading-relaxed text-lg whitespace-pre-wrap bg-gray-50 p-6 rounded-xl border-2 border-gray-100">
-                                {{ $content->content }}
+                        @if($content->content_type === 'text')
+                            <div class="prose max-w-none">
+                                <div class="text-gray-800 leading-relaxed text-lg whitespace-pre-wrap bg-gray-50 p-6 rounded-xl border-2 border-gray-100">
+                                    {!! nl2br(e($content->content_text)) !!}
+                                </div>
                             </div>
-                        </div>
+                        @elseif($content->content_type === 'file')
+                            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-6">
+                                <div class="flex items-start">
+                                    <svg class="w-12 h-12 text-blue-600 mr-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <h3 class="font-bold text-blue-900 mb-2 text-lg">File Materi</h3>
+                                        <p class="text-blue-800 mb-4">Download file materi untuk pembelajaran Anda</p>
+                                        <a href="{{ asset('storage/' . $content->content_file) }}" 
+                                           download
+                                           class="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
+                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                            </svg>
+                                            Download File
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @php
+                                $extension = pathinfo($content->content_file, PATHINFO_EXTENSION);
+                            @endphp
+
+                            @if(in_array(strtolower($extension), ['pdf']))
+                                <div class="bg-gray-100 rounded-xl overflow-hidden">
+                                    <iframe src="{{ asset('storage/' . $content->content_file) }}" 
+                                            class="w-full h-screen border-0"
+                                            title="PDF Preview"></iframe>
+                                </div>
+                            @elseif(in_array(strtolower($extension), ['mp4', 'avi', 'mov']))
+                                <div class="bg-gray-900 rounded-xl overflow-hidden">
+                                    <video controls class="w-full">
+                                        <source src="{{ asset('storage/' . $content->content_file) }}" type="video/{{ $extension }}">
+                                        Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            @endif
+                        @endif
                         
                         @if(!$isCompleted)
                             <div class="mt-8 bg-yellow-50 border-2 border-yellow-200 rounded-xl p-6">
@@ -136,10 +164,8 @@
                         @endif
                     </div>
 
-                    <!-- Footer Actions -->
                     <div class="bg-gray-50 p-6 border-t-2 border-gray-100">
                         <div class="flex items-center justify-between">
-                            <!-- Previous Button -->
                             @if($previousContent)
                                 <a href="{{ route('student.lesson.show', ['courseId' => $course->id, 'contentId' => $previousContent->id]) }}" 
                                    class="inline-flex items-center px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
@@ -159,7 +185,6 @@
                             @endif
 
                             <div class="flex items-center space-x-3">
-                                <!-- Mark as Complete Button - ONLY if not completed yet -->
                                 @if(!$isCompleted)
                                     <form action="{{ route('student.lesson.complete', ['courseId' => $course->id, 'contentId' => $content->id]) }}" method="POST" class="inline">
                                         @csrf

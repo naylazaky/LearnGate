@@ -12,7 +12,10 @@ class Content extends Model
     protected $fillable = [
         'course_id',
         'title',
-        'content',
+        'description',
+        'content_type',
+        'content_text',
+        'content_file',
         'order',
     ];
 
@@ -55,5 +58,23 @@ class Content extends Model
                     ->where('order', '<', $this->order)
                     ->orderBy('order', 'desc')
                     ->first();
+    }
+
+    public function getContentFileUrlAttribute()
+    {
+        if ($this->content_file) {
+            return asset('storage/' . $this->content_file);
+        }
+        return null;
+    }
+
+    public function isTextContent()
+    {
+        return $this->content_type === 'text';
+    }
+
+    public function isFileContent()
+    {
+        return $this->content_type === 'file';
     }
 }

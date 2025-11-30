@@ -2,28 +2,14 @@
 
 @section('title', 'Manage Contents - ' . $course->title)
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.courses.index') }}" class="text-blue-600 hover:text-blue-700 font-medium">My Courses</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('teacher.courses.show', $course) }}" class="text-blue-600 hover:text-blue-700 font-medium">{{ Str::limit($course->title, 20) }}</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Contents</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
@@ -44,7 +30,6 @@
             </div>
         </div>
 
-        <!-- Course Info -->
         <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-8">
             <div class="flex items-start">
                 <svg class="w-6 h-6 text-blue-600 mr-3 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
@@ -62,7 +47,6 @@
             </div>
         </div>
 
-        <!-- Contents List -->
         @if($contents->count() > 0)
             <div class="space-y-4">
                 @foreach($contents as $content)

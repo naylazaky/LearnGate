@@ -11,38 +11,62 @@ class HomeController extends Controller
     public function index()
     {
         $popularCourses = Course::with(['teacher', 'category'])
+            ->withCount('contents')
             ->where('is_active', true)
+            ->whereHas('teacher') 
+            ->whereHas('category')
             ->orderBy('student_count', 'desc')
             ->take(5)
             ->get();
 
-        $categories = Category::all();
+        $categories = Category::withCount(['courses' => function($query) {
+                $query->where('is_active', true);
+            }])
+            ->orderBy('courses_count', 'desc')
+            ->take(3)
+            ->get();
 
         return view('home', compact('popularCourses', 'categories'));
     }
 
     public function catalog(Request $request)
     {
-        $query = Course::with(['teacher', 'category'])
-            ->where('is_active', true);
+        $request->validate([
+            'search' => 'nullable|string|max:255',
+            'category' => 'nullable|integer|exists:categories,id',
+        ]);
 
-        if ($request->has('search') && $request->search) {
+        $query = Course::with(['teacher', 'category'])
+            ->withCount('contents')
+            ->where('is_active', true)
+            ->whereHas('teacher') 
+            ->whereHas('category'); 
+
+        if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->has('category') && $request->category) {
+        if ($request->filled('category')) {
             $query->where('category_id', $request->category);
         }
 
-        $courses = $query->paginate(12);
-        $categories = Category::all();
+        $courses = $query->paginate(12)->withQueryString();
+        $categories = Category::orderBy('name')->get();
 
         return view('courses.catalog', compact('courses', 'categories'));
     }
 
     public function show($id)
     {
-        $course = Course::with(['teacher', 'category', 'contents'])
+        $course = Course::with([
+                'teacher', 
+                'category', 
+                'contents' => function($query) {
+                    $query->orderBy('order');
+                }
+            ])
+            ->whereHas('teacher') 
+            ->whereHas('category') 
             ->findOrFail($id);
 
         $isEnrolled = false;
@@ -50,6 +74,7 @@ class HomeController extends Controller
 
         if (auth()->check() && auth()->user()->role === 'student') {
             $enrollment = auth()->user()->enrollments()
+                ->with('progresses')
                 ->where('course_id', $id)
                 ->first();
 

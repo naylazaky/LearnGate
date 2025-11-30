@@ -61,10 +61,8 @@ class AuthController extends Controller
 
         if ($user->isAdmin()) {
             return redirect()->intended(route('admin.dashboard'));
-        } elseif ($user->isTeacher()) {
-            return redirect()->intended(route('teacher.dashboard'));
         } else {
-            return redirect()->intended(route('student.dashboard'));
+            return redirect()->intended(route('profile.show'));
         }
     }
 
@@ -91,7 +89,7 @@ class AuthController extends Controller
         } elseif ($request->role === 'teacher') {
             if (!str_ends_with($request->email, '@learngate.com')) {
                 throw ValidationException::withMessages([
-                    'email' => ['Email teacher harus menggunakan domain @learngate.com'],
+                    'email' => ['Email tentor harus menggunakan domain @learngate.com'],
                 ]);
             }
         }
@@ -121,7 +119,7 @@ class AuthController extends Controller
 
         if ($user->isStudent()) {
             Auth::login($user);
-            return redirect()->route('student.dashboard')->with('success', 'Registrasi berhasil! Selamat datang di LearnGate.');
+            return redirect()->route('profile.show')->with('success', 'Registrasi berhasil! Selamat datang di LearnGate.');
         }
 
         return redirect()->route('register.success')->with('role', 'teacher');

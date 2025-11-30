@@ -14,21 +14,25 @@ class LessonController extends Controller
     public function show($courseId, $contentId)
     {
         $enrollment = auth()->user()->enrollments()
+            ->with(['course.contents' => function($query) {
+                $query->orderBy('order');
+            }, 'progresses'])
             ->where('course_id', $courseId)
+            ->whereHas('course')
             ->firstOrFail();
+
+        if (!$enrollment->course) {
+            abort(404, 'Course tidak ditemukan.');
+        }
 
         $content = Content::where('course_id', $courseId)
             ->where('id', $contentId)
             ->firstOrFail();
 
         $course = $enrollment->course;
+        $allContents = $course->contents;
         
-        $allContents = $course->contents()->orderBy('order')->get();
-        
-        $progress = $enrollment->progresses()
-            ->where('content_id', $contentId)
-            ->first();
-        
+        $progress = $enrollment->progresses->firstWhere('content_id', $contentId);
         $isCompleted = $progress ? $progress->is_completed : false;
         
         $nextContent = $content->nextContent();
@@ -52,55 +56,49 @@ class LessonController extends Controller
     {
         $enrollment = auth()->user()->enrollments()
             ->where('course_id', $courseId)
+            ->whereHas('course') 
             ->firstOrFail();
+
+        if (!$enrollment->course) {
+            return back()->with('error', 'Course tidak ditemukan.');
+        }
         
         $content = Content::where('course_id', $courseId)
             ->where('id', $contentId)
             ->firstOrFail();
-        
-        try {
-            DB::beginTransaction();
-            
-            // Get or create progress
-            $progress = $enrollment->progresses()
-                ->where('content_id', $contentId)
+
+        $previousContent = $content->previousContent();
+        if ($previousContent) {
+            $previousProgress = $enrollment->progresses()
+                ->where('content_id', $previousContent->id)
                 ->first();
             
-            if (!$progress) {
-                // Create new progress if not exists
-                $progress = Progress::create([
-                    'enrollment_id' => $enrollment->id,
-                    'content_id' => $contentId,
-                    'is_completed' => true,
-                    'completed_at' => now(),
-                ]);
-            } else {
-                // Update existing progress
-                $progress->update([
-                    'is_completed' => true,
-                    'completed_at' => now(),
-                ]);
+            if (!$previousProgress || !$previousProgress->is_completed) {
+                return back()->with('error', 'Anda harus menyelesaikan materi sebelumnya terlebih dahulu.');
             }
-            
-            DB::commit();
-            
-            // Get next content
-            $nextContent = $content->nextContent();
-            
-            // Redirect to next content if exists, otherwise back to course
-            if ($nextContent) {
-                return redirect()->route('student.lesson.show', [
-                    'courseId' => $courseId, 
-                    'contentId' => $nextContent->id
-                ])->with('success', 'Materi berhasil diselesaikan! Lanjut ke materi berikutnya.');
-            } else {
-                return redirect()->route('courses.show', $courseId)
-                    ->with('success', 'Selamat! Anda telah menyelesaikan semua materi kursus ini!');
-            }
-            
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+
+        Progress::updateOrCreate(
+            [
+                'enrollment_id' => $enrollment->id,
+                'content_id' => $contentId,
+            ],
+            [
+                'is_completed' => true,
+                'completed_at' => now(),
+            ]
+        );
+        
+        $nextContent = $content->nextContent();
+        
+        if ($nextContent) {
+            return redirect()->route('student.lesson.show', [
+                'courseId' => $courseId, 
+                'contentId' => $nextContent->id
+            ])->with('success', 'Materi berhasil diselesaikan! Lanjut ke materi berikutnya.');
+        }
+        
+        return redirect()->route('courses.show', $courseId)
+            ->with('success', 'Selamat! Anda telah menyelesaikan semua materi kursus ini!');
     }
 }

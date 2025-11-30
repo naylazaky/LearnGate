@@ -2,24 +2,14 @@
 
 @section('title', 'Edit Course - Admin')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('admin.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('admin.courses.index') }}" class="text-blue-600 hover:text-blue-700 font-medium">Courses</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Edit Course</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
             <h1 class="text-4xl font-black text-gray-900 mb-2">Edit Course</h1>
             <p class="text-lg text-gray-600">Edit informasi course: <span class="font-bold">{{ $course->title }}</span></p>
@@ -81,7 +71,7 @@
                             </label>
                             <select name="teacher_id" id="teacher_id" required
                                     class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('teacher_id') border-red-300 @enderror">
-                                <option value="">Pilih Teacher</option>
+                                <option value="">Pilih Tentor</option>
                                 @foreach($teachers as $teacher)
                                     <option value="{{ $teacher->id }}" {{ old('teacher_id', $course->teacher_id) == $teacher->id ? 'selected' : '' }}>
                                         {{ $teacher->username }} ({{ $teacher->email }})
@@ -140,7 +130,7 @@
                                 <p class="font-bold mb-1">Course Info:</p>
                                 <ul class="space-y-1">
                                     <li>• Total Students: <strong>{{ $course->student_count }}</strong></li>
-                                    <li>• Total Contents: <strong>{{ $course->contents->count() }}</strong></li>
+                                    <li>• Total Contents: <strong>{{ $course->contents->count() ?? 0 }}</strong></li>
                                     <li>• Created: <strong>{{ $course->created_at->format('d M Y') }}</strong></li>
                                 </ul>
                             </div>
@@ -150,10 +140,10 @@
 
                 <div class="flex items-center space-x-4 mt-8">
                     <button type="submit" class="flex-1 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg">
-                        Update Course
+                        Perbarui
                     </button>
                     <a href="{{ route('admin.courses.index') }}" class="flex-1 px-8 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition text-center">
-                        Cancel
+                        Batal
                     </a>
                 </div>
             </form>

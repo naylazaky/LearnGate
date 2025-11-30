@@ -14,6 +14,14 @@ class UserController extends Controller
     {
         $query = User::query();
 
+        $query->where(function($q) {
+            $q->where('role', '!=', 'teacher')
+              ->orWhere(function($subQ) {
+                  $subQ->where('role', 'teacher')
+                       ->where('approval_status', 'approved');
+              });
+        });
+
         if ($request->has('role') && $request->role) {
             $query->where('role', $request->role);
         }
@@ -47,6 +55,20 @@ class UserController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'role' => 'required|in:student,teacher',
         ]);
+
+        if ($request->role === 'student') {
+            if (!str_ends_with($request->email, '@gmail.com')) {
+                return back()->withErrors([
+                    'email' => 'Email student harus menggunakan domain @gmail.com'
+                ])->withInput();
+            }
+        } elseif ($request->role === 'teacher') {
+            if (!str_ends_with($request->email, '@learngate.com')) {
+                return back()->withErrors([
+                    'email' => 'Email tentor harus menggunakan domain @learngate.com'
+                ])->withInput();
+            }
+        }
 
         User::create([
             'username' => $request->username,
@@ -84,6 +106,20 @@ class UserController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
+        if ($request->role === 'student') {
+            if (!str_ends_with($request->email, '@gmail.com')) {
+                return back()->withErrors([
+                    'email' => 'Email student harus menggunakan domain @gmail.com'
+                ])->withInput();
+            }
+        } elseif ($request->role === 'teacher') {
+            if (!str_ends_with($request->email, '@learngate.com')) {
+                return back()->withErrors([
+                    'email' => 'Email tentor harus menggunakan domain @learngate.com'
+                ])->withInput();
+            }
+        }
+
         $data = [
             'username' => $request->username,
             'email' => $request->email,
@@ -120,7 +156,7 @@ class UserController extends Controller
     public function approve(User $user)
     {
         if ($user->role !== 'teacher') {
-            return back()->with('error', 'Hanya teacher yang dapat diapprove.');
+            return back()->with('error', 'Hanya tentor yang dapat diapprove.');
         }
 
         $user->update([
@@ -129,26 +165,22 @@ class UserController extends Controller
             'rejection_reason' => null,
         ]);
 
-        return back()->with('success', 'Teacher berhasil diapprove!');
+        return back()->with('success', 'tentor berhasil diapprove!');
     }
 
     public function reject(Request $request, User $user)
     {
         if ($user->role !== 'teacher') {
-            return back()->with('error', 'Hanya teacher yang dapat direject.');
+            return back()->with('error', 'Hanya tentor yang dapat direject.');
         }
 
         $request->validate([
             'rejection_reason' => 'required|string|max:500',
         ]);
 
-        $user->update([
-            'approval_status' => 'rejected',
-            'is_active' => false,
-            'rejection_reason' => $request->rejection_reason,
-        ]);
+        $user->delete();
 
-        return back()->with('success', 'Teacher berhasil direject!');
+        return back()->with('success', 'tentor berhasil direject dan dihapus dari sistem!');
     }
 
     public function pendingTeachers()

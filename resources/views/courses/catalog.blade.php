@@ -2,16 +2,14 @@
 
 @section('title', 'Materi Kursus - LearnGate')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Kursus</span>
-@endsection
-
 @section('content')
     <div class="bg-gray-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="mb-6">
+                <x-back-button />
+            </div>
+
             <div class="mb-8">
                 <h1 class="text-4xl font-black text-gray-900 mb-3">Jelajahi Semua Materi Kursus</h1>
                 <p class="text-lg text-gray-600">Temukan petualangan belajar berikutnya dari topik-topik kami yang lengkap</p>
@@ -104,11 +102,11 @@
                             <div class="flex items-center justify-between pt-5 border-t-2 border-gray-100">
                                 <div class="flex items-center">
                                     <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3 shadow-md">
-                                        {{ strtoupper(substr($course->teacher->username, 0, 1)) }}
+                                        {{ strtoupper(substr($course->teacher?->username ?? 'Unknown', 0, 1)) }}
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-500 font-medium">Tentor</p>
-                                        <p class="text-sm text-gray-900 font-bold">{{ $course->teacher->username }}</p>
+                                        <p class="text-sm text-gray-900 font-bold">{{ $course->teacher?->username ?? 'Teacher Not Available' }}</p>
                                     </div>
                                 </div>
                                 <div class="flex items-center bg-blue-50 px-3 py-2 rounded-lg">

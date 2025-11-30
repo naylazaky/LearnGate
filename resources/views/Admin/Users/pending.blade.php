@@ -2,24 +2,14 @@
 
 @section('title', 'Pending Teachers - Admin')
 
-@section('breadcrumb')
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('admin.dashboard') }}" class="text-blue-600 hover:text-blue-700 font-medium">Dashboard</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <a href="{{ route('admin.users.index') }}" class="text-blue-600 hover:text-blue-700 font-medium">Users</a>
-    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-    </svg>
-    <span class="text-gray-900 font-semibold">Pending Teachers</span>
-@endsection
-
 @section('content')
 <div class="min-h-screen bg-gray-50 py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="mb-6">
+            <x-back-button />
+        </div>
+        
         <div class="mb-8">
             <h1 class="text-4xl font-black text-gray-900 mb-2">Pending Teachers</h1>
             <p class="text-lg text-gray-600">Teacher yang menunggu approval</p>
@@ -44,9 +34,15 @@
                 <div class="bg-white rounded-2xl border-2 border-yellow-200 p-6 hover:shadow-2xl transition-all">
                     <div class="flex items-start justify-between mb-4">
                         <div class="flex items-center">
-                            <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white text-lg font-bold mr-3">
-                                {{ strtoupper(substr($teacher->username, 0, 1)) }}
-                            </div>
+                            @if($teacher->profile_photo)
+                                <img src="{{ asset('storage/' . $teacher->profile_photo) }}" 
+                                     alt="{{ $teacher->username }}"
+                                     class="w-12 h-12 rounded-full object-cover mr-3 ring-2 ring-purple-200">
+                            @else
+                                <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center text-white text-lg font-bold mr-3">
+                                    {{ $teacher->initials }}
+                                </div>
+                            @endif
                             <div>
                                 <h3 class="font-bold text-lg text-gray-900">{{ $teacher->username }}</h3>
                                 <span class="inline-block px-2 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full mt-1">
@@ -88,7 +84,7 @@
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
                             </svg>
-                            Reject
+                            Reject & Delete
                         </button>
                     </div>
                 </div>
@@ -120,23 +116,27 @@
     </div>
 </div>
 
-<div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50  items-center justify-center p-4">
+<div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl p-8 max-w-md w-full">
-        <h3 class="text-2xl font-black text-gray-900 mb-4">Reject Teacher</h3>
-        <p class="text-gray-600 mb-6">Anda akan menolak teacher <span id="teacherName" class="font-bold"></span>. Berikan alasan penolakan:</p>
+        <h3 class="text-2xl font-black text-gray-900 mb-4">Reject & Delete Teacher</h3>
+        <p class="text-gray-600 mb-6">Anda akan menolak dan menghapus teacher <span id="teacherName" class="font-bold"></span> dari sistem. Teacher ini tidak akan bisa login lagi.</p>
         
         <form id="rejectForm" method="POST">
             @csrf
+            <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 mb-4">
+                <p class="text-red-700 text-sm font-bold">⚠️ Perhatian: Teacher akan langsung dihapus dari database!</p>
+            </div>
+            
             <textarea name="rejection_reason" rows="4" required
                       class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-100 focus:border-red-500 mb-4"
-                      placeholder="Tuliskan alasan penolakan..."></textarea>
+                      placeholder="Tuliskan alasan penolakan (opsional untuk log)..."></textarea>
             
             <div class="flex space-x-3">
                 <button type="button" onclick="closeRejectModal()" class="flex-1 px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
                     Cancel
                 </button>
                 <button type="submit" class="flex-1 px-6 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
-                    Reject
+                    Reject & Delete
                 </button>
             </div>
         </form>
