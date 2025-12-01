@@ -28,10 +28,10 @@ LearnGate adalah platform pembelajaran online yang dibangun menggunakan Laravel 
 > - Teacher dapat login setelah di-approve
 
 2. Course Enrollment Flow
-> -Login sebagai student
-> -Browse courses → Pilih course
+> - Login sebagai student
+> - Browse courses → Pilih course
 > - Click "Enroll"
-> -Akses materi pertama
+> - Akses materi pertama
 > - Complete materi untuk unlock yang berikutnya
 
 3. Content Management Flow
@@ -59,12 +59,13 @@ npm install
 ```
 
 3. Konfigurasi Database
-DB_CONNECTION=mysql
+``` env DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_DATABASE=learngate_db
 DB_USERNAME=root
 DB_PASSWORD=
+```
 
 4. Jalankan Migration & Seeder
 ``` bash
