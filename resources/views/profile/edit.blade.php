@@ -7,7 +7,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div class="mb-8">
-            <h1 class="text-4xl font-black text-gray-900 mb-2">Edit Profile</h1>
+            <h1 class="text-4xl font-black text-gray-900 mb-2">Edit Profil</h1>
             <p class="text-lg text-gray-600">Update informasi profil Anda</p>
         </div>
 
@@ -17,7 +17,7 @@
                 @method('PUT')
 
                 <div class="mb-8 pb-8 border-b-2 border-gray-100">
-                    <h2 class="text-xl font-black text-gray-900 mb-4">Profile Photo</h2>
+                    <h2 class="text-xl font-black text-gray-900 mb-4">Foto Profil</h2>
                     <div class="flex items-center space-x-6">
                         <div id="photo-preview">
                             @if($user->profile_photo)
@@ -30,7 +30,7 @@
                         </div>
                         <div class="flex-1">
                             <label for="profile_photo" class="block text-sm font-bold text-gray-700 mb-2">
-                                Upload New Photo
+                                Unggah Foto Baru
                             </label>
                             <input type="file" name="profile_photo" id="profile_photo" accept="image/*"
                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer"
@@ -42,7 +42,7 @@
                             
                             @if($user->profile_photo)
                                 <button type="button" onclick="deletePhoto()" class="mt-3 text-sm font-bold text-red-600 hover:text-red-700">
-                                    Remove Photo
+                                    Hapus Foto
                                 </button>
                             @endif
                         </div>
@@ -50,16 +50,16 @@
                 </div>
 
                 <div class="space-y-6 mb-8 pb-8 border-b-2 border-gray-100">
-                    <h2 class="text-xl font-black text-gray-900">Basic Information</h2>
+                    <h2 class="text-xl font-black text-gray-900">Informasi Akun</h2>
                     
                     <div>
                         <label for="username" class="block text-sm font-bold text-gray-700 mb-2">
-                            Username <span class="text-red-500">*</span>
+                            Nama Pengguna <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="username" id="username" required
                                value="{{ old('username', $user->username) }}"
                                class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('username') border-red-300 @enderror"
-                               placeholder="Your username">
+                               placeholder="Nama Pengguna">
                         @error('username')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -69,7 +69,7 @@
                         <label for="email" class="block text-sm font-bold text-gray-700 mb-2">
                             Email <span class="text-red-500">*</span>
                             @if($user->role === 'admin')
-                                <span class="text-xs text-gray-500 font-normal ml-2">(Cannot be changed)</span>
+                                <span class="text-xs text-gray-500 font-normal ml-2">(Tidak Bisa Diubah)</span>
                             @endif
                         </label>
                         <input type="email" 
@@ -79,12 +79,12 @@
                                value="{{ old('email', $user->email) }}"
                                @if($user->role === 'admin') readonly @endif
                                class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('email') border-red-300 @enderror {{ $user->role === 'admin' ? 'bg-gray-100 cursor-not-allowed' : '' }}"
-                               placeholder="your@email.com">
+                               placeholder="contoh@email.com">
                         @error('email')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                         @if($user->role === 'admin')
-                            <p class="mt-2 text-xs text-gray-500">Admin email cannot be changed for security reasons.</p>
+                            <p class="mt-2 text-xs text-gray-500">Email admin tidak dapat diubah.</p>
                         @endif
                     </div>
 
@@ -94,10 +94,10 @@
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                             </svg>
                             <div class="text-sm text-gray-700">
-                                <p class="font-bold mb-1">Account Info:</p>
+                                <p class="font-bold mb-1">Info Akun:</p>
                                 <ul class="space-y-1">
                                     <li>• Role: <strong class="text-gray-900">{{ ucfirst($user->role) }}</strong></li>
-                                    <li>• Member since: <strong class="text-gray-900">{{ $user->created_at->format('d M Y') }}</strong></li>
+                                    <li>• Member sejak: <strong class="text-gray-900">{{ $user->created_at->format('d M Y') }}</strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -106,17 +106,17 @@
 
                 <div class="space-y-6">
                     <div>
-                        <h2 class="text-xl font-black text-gray-900 mb-1">Change Password</h2>
+                        <h2 class="text-xl font-black text-gray-900 mb-1">Ubah Password</h2>
                         <p class="text-sm text-gray-600 mb-4">Kosongkan jika tidak ingin mengubah password</p>
                     </div>
 
                     <div>
                         <label for="current_password" class="block text-sm font-bold text-gray-700 mb-2">
-                            Current Password
+                            Password Sekarang
                         </label>
                         <input type="password" name="current_password" id="current_password"
                                class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('current_password') border-red-300 @enderror"
-                               placeholder="Enter current password">
+                               placeholder="Masukkan password sekarang">
                         @error('current_password')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -124,11 +124,11 @@
 
                     <div>
                         <label for="password" class="block text-sm font-bold text-gray-700 mb-2">
-                            New Password
+                            Password Baru
                         </label>
                         <input type="password" name="password" id="password"
                                class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('password') border-red-300 @enderror"
-                               placeholder="Enter new password (min 8 characters)">
+                               placeholder="Masukkan Password Baru (min 8 karakter)">
                         @error('password')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -136,20 +136,20 @@
 
                     <div>
                         <label for="password_confirmation" class="block text-sm font-bold text-gray-700 mb-2">
-                            Confirm New Password
+                            Konfirmasi Password Baru
                         </label>
                         <input type="password" name="password_confirmation" id="password_confirmation"
                                class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500"
-                               placeholder="Confirm new password">
+                               placeholder="Konfirmasi Password Baru">
                     </div>
                 </div>
 
                 <div class="flex items-center space-x-4 mt-8">
                     <button type="submit" class="flex-1 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg">
-                        Save Changes
+                        Simpan
                     </button>
                     <a href="{{ route('profile.show') }}" class="flex-1 px-8 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition text-center">
-                        Cancel
+                        Batal
                     </a>
                 </div>
             </form>

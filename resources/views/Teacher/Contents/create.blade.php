@@ -26,7 +26,7 @@
                     <input type="text" name="title" id="title" required
                            value="{{ old('title') }}"
                            class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('title') border-red-300 @enderror"
-                           placeholder="Contoh: Pengenalan HTML & CSS">
+                           placeholder="Contoh: Intro to Vocabulary">
                     @error('title')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -84,7 +84,7 @@
                     @error('content_text')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
-                    <p class="mt-2 text-xs text-gray-500">Anda bisa menggunakan format teks biasa atau Markdown</p>
+                    <p class="mt-2 text-xs text-gray-500">Anda bisa menggunakan format teks biasa</p>
                 </div>
 
                 <div id="content-file-section" class="mb-6" style="display: {{ old('content_type') == 'file' ? 'block' : 'none' }};">

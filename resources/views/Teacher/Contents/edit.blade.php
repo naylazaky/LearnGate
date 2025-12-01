@@ -27,7 +27,7 @@
                     <input type="text" name="title" id="title" required
                            value="{{ old('title', $content->title) }}"
                            class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('title') border-red-300 @enderror"
-                           placeholder="Contoh: Pengenalan HTML & CSS">
+                           placeholder="Contoh: Intro to Vocabulary">
                     @error('title')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -85,12 +85,12 @@
                     @error('content_text')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
-                    <p class="mt-2 text-xs text-gray-500">Anda bisa menggunakan format teks biasa atau Markdown</p>
+                    <p class="mt-2 text-xs text-gray-500">Anda bisa menggunakan format teks biasa</p>
                 </div>
 
                 <div id="content-file-section" class="mb-6" style="display: {{ old('content_type', $content->content_type) == 'file' ? 'block' : 'none' }};">
                     <label for="content_file" class="block text-sm font-bold text-gray-700 mb-2">
-                        Upload File/Media
+                        Unggah File/Media
                     </label>
                     
                     @if($content->content_file)
@@ -142,7 +142,7 @@
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
-                        Update Materi
+                        Perbarui
                     </button>
                     <a href="{{ route('teacher.contents.index', $course) }}" class="flex-1 px-8 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition text-center">
                         Batal

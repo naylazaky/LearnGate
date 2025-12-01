@@ -68,7 +68,7 @@
                             <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">User</th>
                             <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Email</th>
                             <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Role</th>
-                            <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Active</th>
+                            <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-4 text-right text-xs font-black text-gray-700 uppercase tracking-wider">Actions</th>
                         </tr>
                     </thead>
@@ -105,9 +105,9 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @if($user->is_active)
-                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Active</span>
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">Aktif</span>
                                     @else
-                                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">Inactive</span>
+                                        <span class="px-3 py-1 bg-gray-100 text-gray-700 text-xs font-bold rounded-full">Nonaktif</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -140,7 +140,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
                                         </svg>
                                     </div>
-                                    <p class="text-gray-500 font-medium">No users found</p>
+                                    <p class="text-gray-500 font-medium">Tidak ada user ditemukan</p>
                                 </td>
                             </tr>
                         @endforelse

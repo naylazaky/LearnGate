@@ -42,8 +42,8 @@
                         <div class="flex gap-2">
                             <select name="status" class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500">
                                 <option value="">Semua Status</option>
-                                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
+                                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Aktif</option>
+                                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Nonaktif</option>
                             </select>
                             <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
                                 Filter

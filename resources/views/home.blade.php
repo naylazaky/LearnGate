@@ -87,7 +87,6 @@
             </div>
 
             @if($popularCourses->count() > 0)
-                {{-- Slider Container --}}
                 <div class="relative">
                     {{-- Tombol Previous --}}
                     <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full p-3 shadow-xl hover:bg-gray-100 hover:scale-110 transition-all border-2 border-gray-200">
@@ -110,7 +109,6 @@
                                                     <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                                                     </svg>
-                                                    {{-- FIXED: Use contents_count from eager loading instead of querying --}}
                                                     <span class="text-xs font-bold">{{ $course->contents_count }} Materi</span>
                                                 </div>
                                             </div>

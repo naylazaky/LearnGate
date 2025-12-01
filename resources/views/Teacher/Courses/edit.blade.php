@@ -28,7 +28,7 @@
                         <input type="text" name="title" id="title" required
                                value="{{ old('title', $course->title) }}"
                                class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('title') border-red-300 @enderror"
-                               placeholder="e.g., Laravel Fundamentals">
+                               placeholder="e.g., Introduction to English">
                         @error('title')
                             <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -36,7 +36,7 @@
 
                     <div>
                         <label for="description" class="block text-sm font-bold text-gray-700 mb-2">
-                            Description
+                            Deskripsi
                         </label>
                         <textarea name="description" id="description" rows="4"
                                   class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('description') border-red-300 @enderror"
@@ -48,7 +48,7 @@
 
                     <div>
                         <label for="category_id" class="block text-sm font-bold text-gray-700 mb-2">
-                            Category <span class="text-red-500">*</span>
+                            Kategori <span class="text-red-500">*</span>
                         </label>
                         <select name="category_id" id="category_id" required
                                 class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 @error('category_id') border-red-300 @enderror">
@@ -67,7 +67,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label for="start_date" class="block text-sm font-bold text-gray-700 mb-2">
-                                Start Date <span class="text-red-500">*</span>
+                                Tanggal Mulai <span class="text-red-500">*</span>
                             </label>
                             <input type="date" name="start_date" id="start_date" required
                                    value="{{ old('start_date', $course->start_date->format('Y-m-d')) }}"
@@ -79,7 +79,7 @@
 
                         <div>
                             <label for="end_date" class="block text-sm font-bold text-gray-700 mb-2">
-                                End Date <span class="text-red-500">*</span>
+                                Tanggal Selesai <span class="text-red-500">*</span>
                             </label>
                             <input type="date" name="end_date" id="end_date" required
                                    value="{{ old('end_date', $course->end_date->format('Y-m-d')) }}"
@@ -96,8 +96,8 @@
                         </label>
                         <select name="is_active" id="is_active" required
                                 class="w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500">
-                            <option value="1" {{ old('is_active', $course->is_active) == '1' ? 'selected' : '' }}>Active</option>
-                            <option value="0" {{ old('is_active', $course->is_active) == '0' ? 'selected' : '' }}>Inactive</option>
+                            <option value="1" {{ old('is_active', $course->is_active) == '1' ? 'selected' : '' }}>Aktif</option>
+                            <option value="0" {{ old('is_active', $course->is_active) == '0' ? 'selected' : '' }}>Nonaktif</option>
                         </select>
                     </div>
 
@@ -110,8 +110,8 @@
                                 <p class="font-bold mb-1">Course Info:</p>
                                 <ul class="space-y-1">
                                     <li>• Total Students: <strong>{{ $course->student_count }}</strong></li>
-                                    <li>• Total Contents: <strong>{{ $course->contents->count() }}</strong></li>
-                                    <li>• Created: <strong>{{ $course->created_at->format('d M Y') }}</strong></li>
+                                    <li>• Total Materi: <strong>{{ $course->contents->count() }}</strong></li>
+                                    <li>• Dibuat: <strong>{{ $course->created_at->format('d M Y') }}</strong></li>
                                 </ul>
                             </div>
                         </div>
@@ -120,10 +120,10 @@
 
                 <div class="flex items-center space-x-4 mt-8">
                     <button type="submit" class="flex-1 px-8 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg">
-                        Update Course
+                        Perbarui
                     </button>
                     <a href="{{ route('teacher.courses.show', $course) }}" class="flex-1 px-8 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition text-center">
-                        Cancel
+                        Batal
                     </a>
                 </div>
             </form>

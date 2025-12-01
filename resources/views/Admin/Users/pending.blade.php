@@ -12,7 +12,7 @@
         
         <div class="mb-8">
             <h1 class="text-4xl font-black text-gray-900 mb-2">Pending Teachers</h1>
-            <p class="text-lg text-gray-600">Teacher yang menunggu approval</p>
+            <p class="text-lg text-gray-600">Tentor yang menunggu approval</p>
         </div>
 
         @if($pendingTeachers->count() > 0)
@@ -22,8 +22,8 @@
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
                     </svg>
                     <div>
-                        <p class="text-yellow-800 font-bold">{{ $pendingTeachers->total() }} teacher menunggu approval Anda</p>
-                        <p class="text-yellow-700 text-sm mt-1">Review dan approve/reject teacher yang mendaftar</p>
+                        <p class="text-yellow-800 font-bold">{{ $pendingTeachers->total() }} Tentor menunggu approval Anda</p>
+                        <p class="text-yellow-700 text-sm mt-1">Review dan approve/reject tentor yang mendaftar</p>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
                             </svg>
-                            Reject & Delete
+                            Tolak
                         </button>
                     </div>
                 </div>
@@ -96,13 +96,13 @@
                         </svg>
                     </div>
                     <h3 class="text-2xl font-black text-gray-900 mb-3">All Clear!</h3>
-                    <p class="text-gray-600 mb-6">Tidak ada teacher yang menunggu approval</p>
+                    <p class="text-gray-600 mb-6">Tidak ada tentor yang menunggu approval</p>
                     <a href="{{ route('admin.users.index') }}" 
                        class="inline-flex items-center px-8 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                         </svg>
-                        Back to Users
+                        Kembali
                     </a>
                 </div>
             @endforelse
@@ -118,13 +118,13 @@
 
 <div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl p-8 max-w-md w-full">
-        <h3 class="text-2xl font-black text-gray-900 mb-4">Reject & Delete Teacher</h3>
-        <p class="text-gray-600 mb-6">Anda akan menolak dan menghapus teacher <span id="teacherName" class="font-bold"></span> dari sistem. Teacher ini tidak akan bisa login lagi.</p>
+        <h3 class="text-2xl font-black text-gray-900 mb-4">Tolak</h3>
+        <p class="text-gray-600 mb-6">Anda akan menolak dan menghapus tentor <span id="teacherName" class="font-bold"></span> dari sistem. Tentor ini tidak akan bisa login lagi.</p>
         
         <form id="rejectForm" method="POST">
             @csrf
             <div class="bg-red-50 border-2 border-red-200 rounded-xl p-4 mb-4">
-                <p class="text-red-700 text-sm font-bold">⚠️ Perhatian: Teacher akan langsung dihapus dari database!</p>
+                <p class="text-red-700 text-sm font-bold">Perhatian: Tentor akan terhapus permanen</p>
             </div>
             
             <textarea name="rejection_reason" rows="4" required
@@ -133,10 +133,10 @@
             
             <div class="flex space-x-3">
                 <button type="button" onclick="closeRejectModal()" class="flex-1 px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
-                    Cancel
+                    Batal
                 </button>
                 <button type="submit" class="flex-1 px-6 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition">
-                    Reject & Delete
+                    Tolak
                 </button>
             </div>
         </form>

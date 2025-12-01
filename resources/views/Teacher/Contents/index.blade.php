@@ -13,18 +13,18 @@
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-4xl font-black text-gray-900 mb-2">Manage Contents</h1>
+                    <h1 class="text-4xl font-black text-gray-900 mb-2">Kelola Materi</h1>
                     <p class="text-lg text-gray-600">Course: <span class="font-bold text-blue-600">{{ $course->title }}</span></p>
                 </div>
                 <div class="flex items-center space-x-3">
                     <a href="{{ route('teacher.courses.show', $course) }}" class="px-6 py-3 bg-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-300 transition">
-                        Back to Course
+                        Kembali ke Course
                     </a>
                     <a href="{{ route('teacher.contents.create', $course) }}" class="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition shadow-lg">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        Add Content
+                        Tambah Materi
                     </a>
                 </div>
             </div>
@@ -108,16 +108,16 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                 </div>
-                <h3 class="text-3xl font-black text-gray-900 mb-3">Belum Ada Content</h3>
+                <h3 class="text-3xl font-black text-gray-900 mb-3">Belum Ada Materi</h3>
                 <p class="text-gray-600 mb-8 max-w-md mx-auto">
-                    Mulai dengan menambahkan content pertama untuk course ini. Content akan membantu student belajar secara terstruktur.
+                    Mulai dengan menambahkan Materi pertama untuk course ini. Materi akan membantu student belajar secara terstruktur.
                 </p>
                 <a href="{{ route('teacher.contents.create', $course) }}" 
                    class="inline-flex items-center px-8 py-4 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition shadow-lg">
                     <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                     </svg>
-                    Add First Content
+                    Tambah Materi
                 </a>
             </div>
         @endif

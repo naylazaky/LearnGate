@@ -15,7 +15,7 @@
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
-                Create Course
+                Buat Course
             </a>
         </div>
 
@@ -23,7 +23,7 @@
             <form action="{{ route('teacher.courses.index') }}" method="GET">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                     <div class="md:col-span-8">
-                        <label class="block text-sm font-bold text-gray-700 mb-2">Search</label>
+                        <label class="block text-sm font-bold text-gray-700 mb-2">Cari</label>
                         <input type="text" name="search" placeholder="Cari nama course..." 
                                class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500"
                                value="{{ request('search') }}">
@@ -33,9 +33,9 @@
                         <label class="block text-sm font-bold text-gray-700 mb-2">Status</label>
                         <div class="flex gap-2">
                             <select name="status" class="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500">
-                                <option value="">All Status</option>
-                                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Inactive</option>
+                                <option value="">Semua Status</option>
+                                <option value="1" {{ request('status') === '1' ? 'selected' : '' }}>Aktif</option>
+                                <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Nonaktif</option>
                             </select>
                             <button type="submit" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition">
                                 Filter
@@ -50,7 +50,7 @@
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
-                            Clear Filters
+                            Reset Filter
                         </a>
                     </div>
                 @endif
@@ -66,9 +66,9 @@
                                 {{ $course->category->name }}
                             </span>
                             @if($course->is_active)
-                                <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Active</span>
+                                <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Aktif</span>
                             @else
-                                <span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-full">Inactive</span>
+                                <span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-full">Nonaktif</span>
                             @endif
                         </div>
                         
@@ -95,11 +95,11 @@
                         <div class="grid grid-cols-2 gap-2 pt-4 border-t-2 border-gray-100">
                             <a href="{{ route('teacher.courses.show', $course) }}" 
                                class="px-4 py-2 bg-blue-600 text-white text-center font-bold rounded-lg hover:bg-blue-700 transition text-sm">
-                                View
+                                Lihat
                             </a>
                             <a href="{{ route('teacher.contents.index', $course) }}" 
                                class="px-4 py-2 bg-purple-100 text-purple-700 text-center font-bold rounded-lg hover:bg-purple-200 transition text-sm">
-                                Contents
+                                Materi
                             </a>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        Create Course
+                        Buat Course
                     </a>
                 </div>
             @endforelse

@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <a href="{{ route('profile.edit') }}" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition shadow-lg">
-                    Edit Profile
+                    Edit Profil
                 </a>
             </div>
         </div>
@@ -45,7 +45,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">Total Courses</p>
+                        <p class="text-sm font-semibold text-gray-600">Total Course</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['totalEnrolled'] }}</p>
                 </div>
@@ -57,7 +57,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">In Progress</p>
+                        <p class="text-sm font-semibold text-gray-600">Dalam Progress</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['inProgress'] }}</p>
                 </div>
@@ -69,7 +69,7 @@
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">Completed</p>
+                        <p class="text-sm font-semibold text-gray-600">Selesai</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['completed'] }}</p>
                 </div>
@@ -81,7 +81,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">Avg Progress</p>
+                        <p class="text-sm font-semibold text-gray-600">Rata-Rata Progress</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['averageProgress'] }}%</p>
                 </div>
@@ -97,9 +97,9 @@
                                     {{ $item['course']->category->name ?? 'No Category' }}
                                 </span>
                                 @if($item['isCompleted'])
-                                    <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Completed</span>
+                                    <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Selesai</span>
                                 @else
-                                    <span class="bg-yellow-50 text-yellow-600 text-xs font-bold px-3 py-1.5 rounded-full">In Progress</span>
+                                    <span class="bg-yellow-50 text-yellow-600 text-xs font-bold px-3 py-1.5 rounded-full">Dalam Progress</span>
                                 @endif
                             </div>
                             <h3 class="font-bold text-gray-900 mb-3 line-clamp-2">{{ $item['course']->title }}</h3>
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <a href="{{ route('courses.show', $item['course']->id) }}" class="block text-center px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition text-sm">
-                                View Course
+                                Lihat Course
                             </a>
                         </div>
                     @empty
@@ -133,7 +133,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">Total Courses</p>
+                        <p class="text-sm font-semibold text-gray-600">Total Course</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['totalCourses'] }}</p>
                 </div>
@@ -145,7 +145,7 @@
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">Active Courses</p>
+                        <p class="text-sm font-semibold text-gray-600">Course Aktif</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['activeCourses'] }}</p>
                 </div>
@@ -169,7 +169,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                             </svg>
                         </div>
-                        <p class="text-sm font-semibold text-gray-600">Total Contents</p>
+                        <p class="text-sm font-semibold text-gray-600">Total Materi</p>
                     </div>
                     <p class="text-3xl font-black text-gray-900">{{ $stats['totalContents'] }}</p>
                 </div>
@@ -187,9 +187,9 @@
                                             {{ $item['course']->category->name ?? 'No Category' }}
                                         </span>
                                         @if($item['course']->is_active)
-                                            <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Active</span>
+                                            <span class="bg-green-50 text-green-600 text-xs font-bold px-3 py-1.5 rounded-full">Aktif</span>
                                         @else
-                                            <span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-full">Inactive</span>
+                                            <span class="bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-full">Nonaktif</span>
                                         @endif
                                     </div>
                                     <h3 class="font-bold text-xl text-gray-900 mb-2">{{ $item['course']->title }}</h3>
@@ -200,24 +200,24 @@
                                         </div>
                                         <div>
                                             <p class="text-2xl font-black text-green-600">{{ $item['completedStudents'] }}</p>
-                                            <p class="text-xs text-gray-600 font-semibold">Completed</p>
+                                            <p class="text-xs text-gray-600 font-semibold">Selesai</p>
                                         </div>
                                         <div>
                                             <p class="text-2xl font-black text-yellow-600">{{ $item['inProgressStudents'] }}</p>
-                                            <p class="text-xs text-gray-600 font-semibold">In Progress</p>
+                                            <p class="text-xs text-gray-600 font-semibold">Dalam Progress</p>
                                         </div>
                                         <div>
                                             <p class="text-2xl font-black text-purple-600">{{ $item['totalContents'] }}</p>
-                                            <p class="text-xs text-gray-600 font-semibold">Contents</p>
+                                            <p class="text-xs text-gray-600 font-semibold">Materi</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ml-6 flex flex-col space-y-2">
                                     <a href="{{ route('teacher.courses.show', $item['course']) }}" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition text-sm text-center">
-                                        View Course
+                                        Lihat Course
                                     </a>
                                     <a href="{{ route('teacher.courses.students', $item['course']) }}" class="px-4 py-2 bg-purple-100 text-purple-700 font-bold rounded-lg hover:bg-purple-200 transition text-sm text-center">
-                                        View Students
+                                        Lihat Students
                                     </a>
                                 </div>
                             </div>
@@ -321,7 +321,7 @@
                             <svg class="w-5 h-5 mr-2 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Course teacher_id akan menjadi NULL (course tetap ada)</span>
+                            <span>Course kehilangan tentor</span>
                         </li>
                     @endif
                     <li class="flex items-start">

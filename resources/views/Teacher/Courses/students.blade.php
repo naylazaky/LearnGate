@@ -20,7 +20,7 @@
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                     </svg>
-                    Back to Course
+                    Kembali ke Course
                 </a>
             </div>
         </div>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <p class="text-3xl font-black text-gray-900">{{ $studentsData->where('isCompleted', true)->count() }}</p>
-                <p class="text-sm font-semibold text-gray-600">Completed Course</p>
+                <p class="text-sm font-semibold text-gray-600">Course Selesai</p>
             </div>
 
             <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-100">
@@ -59,7 +59,7 @@
                     </div>
                 </div>
                 <p class="text-3xl font-black text-gray-900">{{ $studentsData->where('isCompleted', false)->count() }}</p>
-                <p class="text-sm font-semibold text-gray-600">In Progress</p>
+                <p class="text-sm font-semibold text-gray-600">Dalam Progress</p>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
                             <tr>
                                 <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Student</th>
                                 <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Enrolled</th>
+                                <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Terdaftar</th>
                                 <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Progress</th>
                                 <th class="px-6 py-4 text-left text-xs font-black text-gray-700 uppercase tracking-wider">Status</th>
                             </tr>
@@ -113,7 +113,7 @@
                                                 <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                                 </svg>
-                                                Completed
+                                                Selesai
                                             </span>
                                         @else
                                             <span class="px-3 py-1 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">In Progress</span>
@@ -144,7 +144,7 @@
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
-                        Back to Course
+                        Kembali ke Course
                     </a>
                 </div>
             @endif

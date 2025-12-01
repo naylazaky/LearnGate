@@ -30,14 +30,11 @@
                             {{-- FIXED: Use eager loaded progresses collection instead of querying --}}
                             @foreach($allContents as $item)
                                 @php
-                                    // FIXED: Get progress from already loaded relationship (NO QUERY)
                                     $itemProgress = $enrollment->progresses->firstWhere('content_id', $item->id);
                                     $itemCompleted = $itemProgress ? $itemProgress->is_completed : false;
                                     
-                                    // Check if can access (previous must be completed)
                                     $previousItem = $allContents->where('order', '<', $item->order)->sortByDesc('order')->first();
                                     
-                                    // FIXED: Check completion from already loaded collection (NO QUERY)
                                     $canAccessItem = !$previousItem || ($previousItem && $enrollment->progresses->firstWhere('content_id', $previousItem->id)?->is_completed);
                                 @endphp
                                 
