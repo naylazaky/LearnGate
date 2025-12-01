@@ -83,5 +83,42 @@ php artisan storage:link
 npm run dev
 
 php artisan serve
-'''
+```
 
+---
+
+## Struktur Proyek
+``` bash
+learngate/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Admin/          # Admin controllers
+│   │   │   ├── Auth/           # Authentication
+│   │   │   ├── Student/        # Student controllers
+│   │   │   └── Teacher/        # Teacher controllers
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php
+│   └── Models/                 # Eloquent models
+├── database/
+│   ├── migrations/             # Database migrations
+│   └── seeders/                # Database seeders
+├── public/
+│   └── storage/               # Symlink ke storage
+├── resources/
+│   └── views/
+│       ├── admin/             # Admin views
+│       ├── auth/              # Auth views
+│       ├── courses/           # Course views
+│       ├── layouts/           # Layout templates
+│       ├── profile/           # Profile views
+│       ├── student/           # Student views
+│       └── teacher/           # Teacher views
+├── routes/
+│   └── web.php               # Web routes
+└── storage/
+    └── app/
+        └── public/
+            ├── profile-photos/    # User photos
+            └── course-contents/   # Course files
+```
