@@ -23,7 +23,65 @@ LearnGate adalah platform pembelajaran online yang dibangun menggunakan Laravel 
 1. Teacher Approval Flow
 > - Register sebagai teacher dengan email @learngate.com
 > - Login akan ditolak dengan notifikasi "pending approval"
-> - 
 > - Login sebagai admin → Teachers → Pending
-> -Approve atau reject teacher
+> - Approve atau reject teacher
 > - Teacher dapat login setelah di-approve
+
+2. Course Enrollment Flow
+> -Login sebagai student
+> -Browse courses → Pilih course
+> - Click "Enroll"
+> -Akses materi pertama
+> - Complete materi untuk unlock yang berikutnya
+
+3. Content Management Flow
+> - Login sebagai teacher
+> -My Courses → Select course
+> -Manage Contents → Add Content
+> -Pilih type (text/file)
+> -Upload file atau tulis text
+> - Save dengan order number
+
+---
+
+## Instalasi
+1. Clone Repository
+``` bash
+git clone https://github.com/naylazaky/LearnGate.git
+cd learngate
+```
+
+2.  Install Dependencies
+``` bash
+composer install
+
+npm install
+```
+
+3. Konfigurasi Database
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=learngate_db
+DB_USERNAME=root
+DB_PASSWORD=
+
+4. Jalankan Migration & Seeder
+``` bash
+php artisan migrate
+
+php artisan db:seed
+```
+
+5. Setup Storage
+``` bash
+php artisan storage:link
+``` 
+
+6. Jalankan
+``` bash
+npm run dev
+
+php artisan serve
+'''
+
