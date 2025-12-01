@@ -36,10 +36,10 @@ LearnGate adalah platform pembelajaran online yang dibangun menggunakan Laravel 
 
 3. Content Management Flow
 > - Login sebagai teacher
-> -My Courses → Select course
-> -Manage Contents → Add Content
-> -Pilih type (text/file)
-> -Upload file atau tulis text
+> - My Courses → Select course
+> - Manage Contents → Add Content
+> - Pilih type (text/file)
+> - Upload file atau tulis text
 > - Save dengan order number
 
 ---
