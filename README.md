@@ -7,8 +7,8 @@ LearnGate adalah platform pembelajaran online yang dibangun menggunakan Laravel 
 
 ### Role & Permissions
 - **Admin** memiliki full access ke semua fitur termasuk manage users (create, edit, delete), approve/reject teacher registrations, manage all courses, dan manage categories.
-- **Teacher** memerlukan approval dari admin dengan email domain '@learngate.com', dapat create & manage own courses, create & manage course contents, view student progress, dan tidak dapat delete account jika memiliki active courses.
-- **Student** menggunakan email domain '@gmail.com' dengan auto-approved registration, dapat browse & enroll courses, view course materials, track learning progress, dan tidak bisa skip content (sequential learning).
+- **Teacher** memerlukan approval dari admin dengan email domain `@learngate.com`, dapat create & manage own courses, create & manage course contents, view student progress, dan tidak dapat delete account jika memiliki active courses.
+- **Student** menggunakan email domain `@gmail.com` dengan auto-approved registration, dapat browse & enroll courses, view course materials, track learning progress, dan tidak bisa skip content (sequential learning).
 
 ---
 
